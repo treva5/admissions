@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en" data-theme="system">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="color-scheme" content="light dark">
+  <title>Nurse workspace · Noemion School</title>
+  <link rel="stylesheet" href="../css/admissions.css"><link rel="stylesheet" href="../css/admissions-settings.css"><link rel="stylesheet" href="../css/admin-workplace.css"><link rel="stylesheet" href="../css/nurse.css">
+</head>
+<body>
+<div class="setup-shell nurse-shell">
+  <aside class="setup-sidebar nurse-sidebar">
+    <a class="brand" href="admissions-settings.html"><span class="brand-logo">N</span><span><b>Noemion</b><small>STUDENT HEALTH</small></span></a>
+    <div class="setup-back"><a href="admissions-settings.html">← Admissions workplace</a></div>
+    <nav id="nurse-nav" aria-label="Nurse workspace navigation">
+      <p class="nav-label">NURSE WORKSPACE</p>
+      <button class="level-nav active" data-nurse-view="overview"><span>01</span><b>Overview</b><small>Health &amp; stock summary</small></button>
+      <button class="level-nav" data-nurse-view="students"><span>02</span><b>Student health</b><small>Review and follow-up</small></button>
+      <button class="level-nav" data-nurse-view="medicines"><span>03</span><b>Medicine stock</b><small>Stock and issue log</small></button>
+    </nav>
+    <div class="setup-side-bottom"><span class="lock-indicator">▣</span><b>Authorised health staff</b><small>Role access requires the school sign-in service</small></div>
+  </aside>
+  <main class="setup-main nurse-main">
+    <header class="setup-topbar"><div><small>Student Welfare / Health office</small><b>Nurse workspace</b></div><div class="setup-top-actions"><span class="nurse-role-label">Nurse view</span><label class="theme-control">◐ <select id="nurse-theme" aria-label="Theme"><option value="system">System theme</option><option value="light">Light mode</option><option value="dark">Dark mode</option></select></label></div></header>
+    <div class="nurse-content">
+      <div class="nurse-preview-note"><b>Frontend preview only</b><span>Use sample information here. This page does not enforce nurse sign-in and must not hold real medical records or medicine transactions until the school connects role-restricted backend storage.</span></div>
+      <section class="nurse-view active" id="nurse-view-overview">
+        <div class="work-heading"><div><span class="eyebrow">STUDENT WELFARE · HEALTH OFFICE</span><h1>Health &amp; medicine overview</h1><p>Follow up student health reviews and monitor clinic stock.</p></div><button class="button primary" data-open-nurse-view="students">＋ Review student status</button></div>
+        <div class="work-metrics nurse-metrics"><article><span>Admitted students</span><b id="nurse-student-count">0</b><small>From the admissions directory</small></article><article><span>Follow-up due</span><b id="nurse-followup-count">0</b><small>Health status requires review</small></article><article><span>Medicines below reorder level</span><b id="nurse-low-stock-count">0</b><small>Check the clinic store</small></article><article><span>Students served this month</span><b id="nurse-served-count">0</b><small>Unique students in issue log</small></article></div>
+        <div class="work-grid"><article class="work-card"><div class="work-card-head"><div><h2>Health follow-up</h2><p>Students needing a review or follow-up</p></div><button class="text-button" data-open-nurse-view="students">View student list →</button></div><div id="nurse-followup-list"></div></article><article class="work-card"><div class="work-card-head"><div><h2>Medicine stock alerts</h2><p>Items at or below their reorder level</p></div><button class="text-button" data-open-nurse-view="medicines">Manage stock →</button></div><div id="nurse-low-stock-list"></div></article></div>
+      </section>
+      <section class="nurse-view" id="nurse-view-students">
+        <div class="work-heading"><div><span class="eyebrow">RESTRICTED HEALTH WORKFLOW</span><h1>Student health status</h1><p>Record review status and next follow-up date. Keep detailed medical notes in the authorised health record.</p></div></div>
+        <article class="work-card"><div class="work-toolbar"><input id="nurse-student-search" type="search" aria-label="Search students by name or admission number" placeholder="Search learner or admission number"><select id="nurse-health-filter" aria-label="Filter students by health status"><option value="all">All health statuses</option><option>Not reviewed</option><option>Stable</option><option>Follow-up due</option><option>Referred</option></select></div><div class="table-scroll"><table><thead><tr><th>STUDENT</th><th>LEVEL / CLASS OR COURSE</th><th>HEALTH STATUS</th><th>NEXT REVIEW</th><th>ACTIONS</th></tr></thead><tbody id="nurse-students"></tbody></table><div id="nurse-students-empty" class="empty-config">No admitted students are available in this browser preview.</div></div></article>
+      </section>
+      <section class="nurse-view" id="nurse-view-medicines">
+        <div class="work-heading"><div><span class="eyebrow">CLINIC STORE</span><h1>Medicine stock &amp; usage</h1><p>Track stock on hand, reorder levels, expiry dates and student issues.</p></div><button class="button primary" id="nurse-add-medicine">＋ Add medicine</button></div>
+        <article class="work-card"><div class="nurse-stock-summary"><b id="nurse-stock-total">0</b><span>total units on hand</span><b id="nurse-issued-total">0</b><span>units issued this month</span></div><div class="table-scroll"><table><thead><tr><th>MEDICINE / SUPPLY</th><th>STOCK</th><th>REORDER AT</th><th>EXPIRY</th><th>STUDENTS SERVED</th><th>ACTION</th></tr></thead><tbody id="nurse-medicines"></tbody></table><div id="nurse-medicines-empty" class="empty-config">No clinic stock items. Add an item to begin the preview.</div></div></article>
+        <article class="work-card"><h2>Recent issue records</h2><p>Preview issue log. Each record links a student to a medicine and quantity.</p><div id="nurse-issue-log"></div></article>
+      </section>
+    </div>
+  </main>
+</div>
+<dialog class="dialog" id="nurse-record-dialog"><form id="nurse-record-form"><div class="dialog-head"><div><span class="eyebrow">STUDENT HEALTH STATUS</span><h2 id="nurse-record-title">Update student status</h2><p id="nurse-record-subtitle"></p></div><button class="icon-button" type="button" data-close-nurse-dialog>×</button></div><input type="hidden" name="studentId"><label class="nurse-field">Health status<select name="status"><option>Not reviewed</option><option>Stable</option><option>Follow-up due</option><option>Referred</option></select></label><label class="nurse-field">Next review date<input type="date" name="nextReview"></label><p class="nurse-private-note">This prototype records a status and review date only. Detailed medical notes and files need restricted health-record storage.</p><div class="dialog-actions"><button class="button" type="button" data-close-nurse-dialog>Cancel</button><button class="button primary">Save status</button></div></form></dialog>
+<dialog class="dialog large-dialog" id="nurse-health-card-dialog"><div class="dialog-head"><div><span class="eyebrow">RESTRICTED STUDENT HEALTH CARD</span><h2 id="nurse-health-card-title">Student health card</h2><p id="nurse-health-card-subtitle"></p></div><button class="icon-button" type="button" data-close-nurse-dialog>×</button></div><div class="nurse-health-access-note">This mock-up shows where authorised nurses will review emergency details and medical reports. It contains no real clinical notes; server-side nurse access must be connected before real information is displayed.</div><div id="nurse-health-card-content"></div><div class="dialog-actions"><button class="button" type="button" data-close-nurse-dialog>Close</button></div></dialog>
+<dialog class="dialog" id="nurse-stock-dialog"><form id="nurse-stock-form"><div class="dialog-head"><div><span class="eyebrow">CLINIC STORE</span><h2 id="nurse-stock-title">Medicine stock action</h2><p id="nurse-stock-subtitle"></p></div><button class="icon-button" type="button" data-close-nurse-dialog>×</button></div><div id="nurse-stock-fields" class="form-grid"></div><div class="dialog-actions"><button class="button" type="button" data-close-nurse-dialog>Cancel</button><button class="button primary" id="nurse-stock-submit">Save</button></div></form></dialog>
+<output class="toast" id="nurse-toast" aria-live="polite"></output>
+<script src="../js/modules/nurse.ui.js" defer></script>
+</body>
+</html>
